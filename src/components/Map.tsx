@@ -1,12 +1,12 @@
 "use client";
 
+import { Item } from "@/types/stac";
 import { Layer, Map, MapLayerMouseEvent, Source } from "@vis.gl/react-maplibre";
 import { useDuckDb } from "duckdb-wasm-kit";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css"; // See notes below
 import { Protocol } from "pmtiles";
 import { Dispatch, SetStateAction } from "react";
-import { Item } from "../types/stac";
 
 export default function Main({
   setItems,
