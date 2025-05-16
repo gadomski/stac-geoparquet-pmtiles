@@ -1,7 +1,7 @@
 "use client";
 
 import Items from "@/components/items";
-import Map from "@/components/map";
+import Map from "@/components/Map";
 import { Item } from "@/types/stac";
 import { GridItem, SimpleGrid } from "@chakra-ui/react";
 import { useState } from "react";
