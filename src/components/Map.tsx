@@ -26,7 +26,7 @@ export default function Main({
       if (ids.length > 0) {
         const connection = await db.connect();
         const result = await connection.query(
-          `select id, datetime, assets from read_parquet('https://gadom.ski/stac-geoparquet-pmtiles/naip.parquet') where id in (${ids.join(
+          `select id, datetime, assets from read_parquet('https://www.gadom.ski/stac-geoparquet-pmtiles/naip.parquet') where id in (${ids.join(
             ","
           )})`
         );
@@ -56,7 +56,7 @@ export default function Main({
         zoom: 6,
       }}
       style={{ width: "100%", height: "100%" }}
-      mapStyle="https://tiles.stadiamaps.com/styles/alidade_smooth.json"
+      mapStyle="https://tiles.openfreemap.org/styles/liberty"
       onClick={onClick}
       interactiveLayerIds={["pmtiles-layer"]}
     >
