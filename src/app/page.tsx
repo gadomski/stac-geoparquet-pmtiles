@@ -1,10 +1,10 @@
 "use client";
 
-import Items from "@/components/items";
-import Map from "@/components/map";
-import { Item } from "@/types/stac";
 import { GridItem, SimpleGrid } from "@chakra-ui/react";
 import { useState } from "react";
+import Items from "../components/items";
+import Map from "../components/map";
+import { Item } from "../types/stac";
 
 export default function Page() {
   const [items, setItems] = useState<Item[] | undefined>();

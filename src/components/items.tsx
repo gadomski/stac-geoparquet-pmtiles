@@ -1,5 +1,5 @@
-import { Item } from "@/types/stac";
 import { Card, GridItem, Heading, Image, SimpleGrid } from "@chakra-ui/react";
+import { Item } from "../types/stac";
 
 function ItemGridItem({ item }: { item: Item }) {
   return (

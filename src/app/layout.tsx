@@ -1,4 +1,4 @@
-import { Provider } from "@/components/ui/provider";
+import { Provider } from "../components/ui/provider";
 
 export default function RootLayout({
   children,
