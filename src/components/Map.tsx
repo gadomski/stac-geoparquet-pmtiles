@@ -16,7 +16,7 @@ export default function Main({
   const protocol = new Protocol();
   maplibregl.addProtocol("pmtiles", protocol.tile);
 
-  const { db, loading, error } = useDuckDb();
+  const { db, _loading, _error } = useDuckDb();
 
   const onClick = async (e: MapLayerMouseEvent) => {
     if (e.features && db) {
