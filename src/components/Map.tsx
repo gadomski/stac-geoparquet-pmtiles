@@ -26,7 +26,7 @@ export default function Main({
       if (ids.length > 0) {
         const connection = await db.connect();
         const result = await connection.query(
-          `select id, datetime, assets from read_parquet('http://localhost:8080/naip.parquet') where id in (${ids.join(
+          `select id, datetime, assets from read_parquet('https://gadom.ski/stac-geoparquet-pmtiles/naip.parquet') where id in (${ids.join(
             ","
           )})`
         );
@@ -60,11 +60,7 @@ export default function Main({
       onClick={onClick}
       interactiveLayerIds={["pmtiles-layer"]}
     >
-      <Source
-        id="pmtiles"
-        type="vector"
-        url="pmtiles://http://localhost:8080/naip.pmtiles"
-      >
+      <Source id="pmtiles" type="vector" url="pmtiles://naip.pmtiles">
         <Layer
           id="pmtiles-layer"
           type="fill"
