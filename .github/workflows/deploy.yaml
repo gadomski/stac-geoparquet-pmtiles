@@ -21,8 +21,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install
         run: yarn install
+      - id: setup_pages
+        uses: actions/configure-pages@v5
       - name: Build
         run: yarn build
+        env:
+          PAGES_BASE_PATH: ${{ steps.setup_pages.outputs.base_path }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
