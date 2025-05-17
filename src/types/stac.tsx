@@ -5,12 +5,17 @@ export type Item = {
 
 export type Collection = {
   id: string;
+  stac_version: string;
+  type: string;
   assets: CollectionAssets;
 };
 
 export type Asset = {
   href: string;
-  layer?: string;
+};
+
+export type PmtilesAsset = Asset & {
+  layer: string;
 };
 
 export type ItemAssets = {
@@ -19,5 +24,5 @@ export type ItemAssets = {
 
 export type CollectionAssets = {
   geoparquet: Asset;
-  pmtiles: Asset;
+  pmtiles: PmtilesAsset;
 };
