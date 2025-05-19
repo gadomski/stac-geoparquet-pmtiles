@@ -2,6 +2,11 @@
     "id": "openaerialmap",
     "stac_version": "1.1.0",
     "type": "Collection",
+    "fill_color": {
+        "red": 77,
+        "green": 175,
+        "blue": 74
+    },
     "assets": {
         "geoparquet": {
             "href": "openaerialmap.parquet"

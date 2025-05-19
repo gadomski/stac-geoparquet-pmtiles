@@ -7,6 +7,7 @@ export type Collection = {
   id: string;
   stac_version: string;
   type: string;
+  fill_color: Color;
   assets: CollectionAssets;
 };
 
@@ -25,4 +26,10 @@ export type ItemAssets = {
 export type CollectionAssets = {
   geoparquet: Asset;
   pmtiles: PmtilesAsset;
+};
+
+export type Color = {
+  red: number;
+  green: number;
+  blue: number;
 };

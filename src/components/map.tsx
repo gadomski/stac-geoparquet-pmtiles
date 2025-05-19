@@ -8,6 +8,7 @@ import { Protocol } from "pmtiles";
 import { Dispatch, SetStateAction } from "react";
 
 function CollectionSourceAndLayer({ collection }: { collection: Collection }) {
+  const fill_color = `rgba(${collection.fill_color.red}, ${collection.fill_color.green}, ${collection.fill_color.blue}, 0.5)`;
   return (
     <Source
       id={collection.id}
@@ -19,7 +20,7 @@ function CollectionSourceAndLayer({ collection }: { collection: Collection }) {
         type="fill"
         source="pmtiles"
         source-layer={collection.assets.pmtiles.layer}
-        paint={{ "fill-color": "rgba(207, 63, 2, 0.5)" }}
+        paint={{ "fill-color": fill_color }}
       ></Layer>
     </Source>
   );

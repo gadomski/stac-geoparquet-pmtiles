@@ -2,6 +2,11 @@
     "id": "naip",
     "stac_version": "1.1.0",
     "type": "Collection",
+    "fill_color": {
+        "red": 228,
+        "green": 26,
+        "blue": 28
+    },
     "assets": {
         "geoparquet": {
             "href": "naip.parquet"
