@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+set -e
+
+geoparquet=$1
+file_name=$(basename "$geoparquet")
+file_stem="${file_name%.*}"
+fgb="${file_stem}.fgb"
+pmtiles="${file_stem}.pmtiles"
+
+ogr2ogr -f FlatGeoBuf $fgb $geoparquet -sql "select id from \"$file_stem\" where geometry is not null"

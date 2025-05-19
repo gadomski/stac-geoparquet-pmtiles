@@ -1,19 +1,19 @@
 "use client";
 
 import Naip from "@/collections/naip.json";
+import Openaerialmap from "@/collections/openaerialmap.json";
 import Items from "@/components/items";
 import Map from "@/components/map";
-import SelectCollection from "@/components/select-collection";
 import { Box, HStack, Stack } from "@chakra-ui/react";
 import { DuckDBConfig } from "@duckdb/duckdb-wasm";
 import { initializeDuckDb } from "duckdb-wasm-kit";
+import { MapGeoJSONFeature } from "maplibre-gl";
 import { useEffect, useState } from "react";
 
 export default function Page() {
-  const collections = [Naip];
+  const collections = [Naip, Openaerialmap];
 
-  const [ids, setIds] = useState<string[] | undefined>();
-  const [collection, setCollection] = useState(Naip);
+  const [features, setFeatures] = useState<MapGeoJSONFeature[] | undefined>();
 
   useEffect(() => {
     const config: DuckDBConfig = {
@@ -34,21 +34,16 @@ export default function Page() {
         padding="4"
       >
         <Stack direction="column" align="stretch">
-          <SelectCollection
-            collections={collections}
-            collection={collection}
-            setCollection={setCollection}
-          ></SelectCollection>
-          {ids && ids.length > 0 && (
-            <Items collection={collection} ids={ids}></Items>
+          {features && features.length > 0 && (
+            <Items collections={collections} features={features}></Items>
           )}
         </Stack>
       </Box>
       <Box flex="1">
         <Map
           mapStyle={"https://tiles.openfreemap.org/styles/liberty"}
-          collection={collection}
-          setIds={setIds}
+          collections={collections}
+          setFeatures={setFeatures}
         ></Map>
       </Box>
     </HStack>

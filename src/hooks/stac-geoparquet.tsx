@@ -1,12 +1,44 @@
 import { Collection } from "@/types/stac";
 import { useDuckDbQuery } from "duckdb-wasm-kit";
+import { MapGeoJSONFeature } from "maplibre-gl";
 
-export function useStacGeoparquetItems(collection: Collection, ids: string[]) {
-  const path = new URL(collection.assets.geoparquet.href, window.location.href);
-  const query = `select id, assets from read_parquet('${path}') where id in (${ids.join(
-    ","
-  )})`;
-  const { arrow, loading, error } = useDuckDbQuery(query);
+function partitionBySource(features: MapGeoJSONFeature[]) {
+  return features.reduce((result, feature) => {
+    const value = feature.source;
+    if (!result[value]) {
+      result[value] = [];
+    }
+    result[value].push(feature);
+    return result;
+  }, {} as { [source: string]: MapGeoJSONFeature[] });
+}
+
+export function useStacGeoparquetItems(
+  collections: Collection[],
+  features: MapGeoJSONFeature[]
+) {
+  const queries = Object.entries(partitionBySource(features))
+    .map(([source, features]) => {
+      const ids = features.map((feature) => "'" + feature.properties.id + "'");
+      const collection = collections.find(
+        (collection) => collection.id == source
+      );
+      if (collection) {
+        const path = new URL(
+          collection.assets.geoparquet.href,
+          window.location.href
+        );
+        return `select id, assets from read_parquet('${path}') where id in (${ids.join(
+          ","
+        )})`;
+      } else {
+        console.log("ERROR: no collection with source: " + source);
+        return undefined;
+      }
+    })
+    .filter((q) => q);
+
+  const { arrow, loading, error } = useDuckDbQuery(queries.join(" UNION "));
   return {
     items: arrow?.toArray().map((row) => {
       const item = row.toJSON();

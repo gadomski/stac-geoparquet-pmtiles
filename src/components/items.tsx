@@ -1,6 +1,7 @@
 import { useStacGeoparquetItems } from "@/hooks/stac-geoparquet";
 import { Collection, Item } from "@/types/stac";
 import { Box, Card, Heading, Image, Spinner, Text } from "@chakra-ui/react";
+import { MapGeoJSONFeature } from "maplibre-gl";
 
 function ItemCard({ item }: { item: Item }) {
   return (
@@ -14,13 +15,16 @@ function ItemCard({ item }: { item: Item }) {
 }
 
 export default function Items({
-  collection,
-  ids,
+  collections,
+  features,
 }: {
-  collection: Collection;
-  ids: string[];
+  collections: Collection[];
+  features: MapGeoJSONFeature[];
 }) {
-  const { items, loading, error } = useStacGeoparquetItems(collection, ids);
+  const { items, loading, error } = useStacGeoparquetItems(
+    collections,
+    features
+  );
   if (items) {
     return (
       <>

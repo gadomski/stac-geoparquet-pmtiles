@@ -13,18 +13,17 @@ We think this might be interesting as a server-free way of visualizing and query
 
 ## Usage
 
-Eventually we'd like to make this much simpler.
-
 ```shell
-# This will be slow, because (for now) we have to build DuckDB from scratch
-docker compose up
+yarn dev
 ```
 
-Then, go to <http://localhost:3000> and click on a geometry — this should fetch the STAC items that you clicked on from the STAC API.
+This will spin up the app on <http://localhost:3000/>.
 
-### Next steps
+## Building the pmtiles
 
-- Make a STAC API search from the browser directly to the **stac-geoparquet** file, no STAC API server required
-- Make the UI less eyeball-bleed-inducing
-- Provide examples for multiple datasets
-- Show how we make the **pmtiles** file
+Get **GDAL** and **tippecanoe**.
+Then:
+
+```shell
+scripts/build-pmtiles public/file.parquet
+```

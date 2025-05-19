@@ -2,29 +2,44 @@
 
 import { Collection } from "@/types/stac";
 import { Layer, Map, MapLayerMouseEvent, Source } from "@vis.gl/react-maplibre";
-import maplibregl from "maplibre-gl";
+import maplibregl, { MapGeoJSONFeature } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css"; // See notes below
 import { Protocol } from "pmtiles";
 import { Dispatch, SetStateAction } from "react";
 
+function CollectionSourceAndLayer({ collection }: { collection: Collection }) {
+  return (
+    <Source
+      id={collection.id}
+      type="vector"
+      url={`pmtiles://${collection.assets.pmtiles.href}`}
+    >
+      <Layer
+        id={collection.id + "-layer"}
+        type="fill"
+        source="pmtiles"
+        source-layer={collection.assets.pmtiles.layer}
+        paint={{ "fill-color": "rgba(207, 63, 2, 0.5)" }}
+      ></Layer>
+    </Source>
+  );
+}
+
 export default function Main({
   mapStyle,
-  collection,
-  setIds,
+  collections,
+  setFeatures,
 }: {
   mapStyle: string;
-  collection: Collection;
-  setIds: Dispatch<SetStateAction<string[] | undefined>>;
+  collections: Collection[];
+  setFeatures: Dispatch<SetStateAction<MapGeoJSONFeature[] | undefined>>;
 }) {
   const protocol = new Protocol();
   maplibregl.addProtocol("pmtiles", protocol.tile);
 
   const onClick = async (e: MapLayerMouseEvent) => {
     if (e.features) {
-      const ids = e.features.map(
-        (feature) => "'" + feature.properties.id + "'"
-      );
-      setIds(ids);
+      setFeatures(e.features);
     }
   };
 
@@ -38,21 +53,16 @@ export default function Main({
       style={{ width: "100%", height: "100%" }}
       mapStyle={mapStyle}
       onClick={onClick}
-      interactiveLayerIds={["pmtiles-layer"]}
+      interactiveLayerIds={collections.map(
+        (collection) => collection.id + "-layer"
+      )}
     >
-      <Source
-        id="pmtiles"
-        type="vector"
-        url={`pmtiles://${collection.assets.pmtiles.href}`}
-      >
-        <Layer
-          id="pmtiles-layer"
-          type="fill"
-          source="pmtiles"
-          source-layer={collection.assets.pmtiles.layer}
-          paint={{ "fill-color": "rgba(207, 63, 2, 0.5)" }}
-        ></Layer>
-      </Source>
+      {collections.map((collection) => (
+        <CollectionSourceAndLayer
+          collection={collection}
+          key={collection.id}
+        ></CollectionSourceAndLayer>
+      ))}
     </Map>
   );
 }
