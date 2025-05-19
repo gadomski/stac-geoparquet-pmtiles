@@ -1,15 +1,28 @@
 import { useStacGeoparquetItems } from "@/hooks/stac-geoparquet";
-import { Collection, Item } from "@/types/stac";
+import { Asset, Collection, Item } from "@/types/stac";
 import {
   Badge,
   Box,
+  Button,
   Card,
   Heading,
   Image,
   Spinner,
+  Stack,
   Text,
 } from "@chakra-ui/react";
+import { CollecticonExpandTopRight } from "@devseed-ui/collecticons-react";
 import { MapGeoJSONFeature } from "maplibre-gl";
+
+function AssetButton({ assetKey, asset }: { assetKey: string; asset: Asset }) {
+  return (
+    <Button size={"xs"} variant={"ghost"} asChild>
+      <a href={asset.href}>
+        {assetKey} <CollecticonExpandTopRight></CollecticonExpandTopRight>
+      </a>
+    </Button>
+  );
+}
 
 function ItemCard({
   item,
@@ -22,7 +35,19 @@ function ItemCard({
     <Card.Root>
       <Image src={item.assets.thumbnail?.href} alt="Thumbnail image"></Image>
       <Card.Body>
-        <Text fontSize={"xs"}>{item.id}</Text>
+        <Stack>
+          {Object.entries(item.assets).map(([key, asset]) => {
+            if (asset) {
+              return (
+                <AssetButton
+                  key={key}
+                  asset={asset}
+                  assetKey={key}
+                ></AssetButton>
+              );
+            }
+          })}
+        </Stack>
       </Card.Body>
       {collection && (
         <Card.Footer>

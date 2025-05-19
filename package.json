@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^3.19.1",
+    "@devseed-ui/collecticons-react": "^4.0.0",
     "@duckdb/duckdb-wasm": "^1.29.1-dev132.0",
     "@emotion/react": "^11.14.0",
     "@vis.gl/react-maplibre": "^8.0.4",

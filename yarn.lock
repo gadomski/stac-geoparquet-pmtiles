@@ -159,6 +159,11 @@
     csstype "3.1.3"
     fast-safe-stringify "2.1.1"
 
+"@devseed-ui/collecticons-react@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@devseed-ui/collecticons-react/-/collecticons-react-4.0.0.tgz#914e5316cbbf2d47e2420cbbb576f0fb0f1ed3f5"
+  integrity sha512-fDE48LEWX5DPvQoc27DE3HguQd80yHIhwx4LXrEjGgx+DzCIv6+ohECZdXw1So0LF7cpHzhS/a2T9i1cS2G4+w==
+
 "@duckdb/duckdb-wasm@^1.29.1-dev132.0":
   version "1.29.1-dev132.0"
   resolved "https://registry.yarnpkg.com/@duckdb/duckdb-wasm/-/duckdb-wasm-1.29.1-dev132.0.tgz#a2b5c0ab2f1241d095a8244a5303cc109d1f29d8"
