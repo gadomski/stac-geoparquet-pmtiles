@@ -15,7 +15,8 @@ function partitionBySource(features: MapGeoJSONFeature[]) {
 
 export function useStacGeoparquetItems(
   collections: Collection[],
-  features: MapGeoJSONFeature[]
+  features: MapGeoJSONFeature[],
+  columns: string[]
 ) {
   const queries = Object.entries(partitionBySource(features))
     .map(([source, features]) => {
@@ -28,9 +29,9 @@ export function useStacGeoparquetItems(
           collection.assets.geoparquet.href,
           window.location.href
         );
-        return `select id, assets from read_parquet('${path}') where id in (${ids.join(
-          ","
-        )})`;
+        return `select ${columns.join(
+          ", "
+        )} from read_parquet('${path}') where id in (${ids.join(",")})`;
       } else {
         console.log("ERROR: no collection with source: " + source);
         return undefined;

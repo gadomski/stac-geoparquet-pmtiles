@@ -23,7 +23,8 @@ export default function Items({
 }) {
   const { items, loading, error } = useStacGeoparquetItems(
     collections,
-    features
+    features,
+    ["id", "assets"]
   );
   if (items) {
     return (
