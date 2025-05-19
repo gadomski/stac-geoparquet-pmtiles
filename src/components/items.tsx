@@ -1,15 +1,38 @@
 import { useStacGeoparquetItems } from "@/hooks/stac-geoparquet";
 import { Collection, Item } from "@/types/stac";
-import { Box, Card, Heading, Image, Spinner, Text } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Card,
+  Heading,
+  Image,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 import { MapGeoJSONFeature } from "maplibre-gl";
 
-function ItemCard({ item }: { item: Item }) {
+function ItemCard({
+  item,
+  collection,
+}: {
+  item: Item;
+  collection?: Collection;
+}) {
   return (
     <Card.Root>
       <Image src={item.assets.thumbnail?.href} alt="Thumbnail image"></Image>
       <Card.Body>
         <Text fontSize={"xs"}>{item.id}</Text>
       </Card.Body>
+      {collection && (
+        <Card.Footer>
+          <Badge
+            backgroundColor={`rgb(${collection.fill_color.red}, ${collection.fill_color.green}, ${collection.fill_color.blue})`}
+          >
+            {collection.id}
+          </Badge>
+        </Card.Footer>
+      )}
     </Card.Root>
   );
 }
@@ -30,7 +53,13 @@ export default function Items({
     return (
       <>
         {items.map((item) => (
-          <ItemCard key={item.id} item={item}></ItemCard>
+          <ItemCard
+            key={item.id}
+            item={item}
+            collection={collections.find(
+              (collection) => collection.id == item.collection
+            )}
+          ></ItemCard>
         ))}
       </>
     );

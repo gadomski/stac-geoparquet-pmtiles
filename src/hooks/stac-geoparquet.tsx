@@ -31,7 +31,9 @@ export function useStacGeoparquetItems(
         );
         return `select ${columns.join(
           ", "
-        )} from read_parquet('${path}') where id in (${ids.join(",")})`;
+        )}, '${source}' as collection from read_parquet('${path}') where id in (${ids.join(
+          ","
+        )})`;
       } else {
         console.log("ERROR: no collection with source: " + source);
         return undefined;

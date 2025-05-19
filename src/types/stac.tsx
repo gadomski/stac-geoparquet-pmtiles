@@ -1,6 +1,7 @@
 export type Item = {
   id: string;
   assets: ItemAssets;
+  collection?: string;
 };
 
 export type Collection = {
