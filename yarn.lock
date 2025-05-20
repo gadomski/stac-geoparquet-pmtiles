@@ -4320,6 +4320,11 @@ stable-hash@^0.0.5:
   resolved "https://registry.npmjs.org/stable-hash/-/stable-hash-0.0.5.tgz"
   integrity sha512-+L3ccpzibovGXFK+Ap/f8LOS0ahMrHTf3xu7mMLSpEGU0EO9ucaysSylKo9eRDFNhWve/y275iPmIZ4z39a9iA==
 
+stac-wasm@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/stac-wasm/-/stac-wasm-0.0.2.tgz#ec531d1b847d977921da3a9b4fec67c43362ec81"
+  integrity sha512-/FlA2IjgNKEZQx6wWSQTto73+y/7npITKORhU1i81WRDN1BgbbUzCuNBsQ73VZocAqnrUsranBTzxHQVRPHwxg==
+
 statuses@2.0.1, statuses@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/statuses/-/statuses-2.0.1.tgz"
