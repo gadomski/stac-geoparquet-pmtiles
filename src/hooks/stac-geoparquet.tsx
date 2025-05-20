@@ -1,6 +1,7 @@
-import { Collection } from "@/types/stac";
+import { Collection, Item } from "@/types/stac";
 import { useDuckDbQuery } from "duckdb-wasm-kit";
 import { MapGeoJSONFeature } from "maplibre-gl";
+import { useEffect, useState } from "react";
 
 function partitionBySource(features: MapGeoJSONFeature[]) {
   return features.reduce((result, feature) => {
@@ -17,7 +18,21 @@ export function useStacGeoparquetItems(
   collections: Collection[],
   features: MapGeoJSONFeature[],
   columns: string[]
-) {
+): {
+  items: Item[] | undefined;
+  loading: boolean;
+  error: Error | undefined;
+} {
+  const [stacWasm, setStacWasm] = useState<any>();
+
+  useEffect(() => {
+    async function loadStacWasm() {
+      const stac_wasm = await import("@/stac-wasm");
+      setStacWasm(stac_wasm);
+    }
+    loadStacWasm();
+  }, []);
+
   const queries = Object.entries(partitionBySource(features))
     .map(([source, features]) => {
       const ids = features.map((feature) => "'" + feature.properties.id + "'");
@@ -43,18 +58,10 @@ export function useStacGeoparquetItems(
 
   const { arrow, loading, error } = useDuckDbQuery(queries.join(" UNION "));
   return {
-    items: arrow?.toArray().map((row) => {
-      const item = row.toJSON();
-      item.assets = item.assets.toJSON();
-      for (const [key, value] of Object.entries(item.assets)) {
-        if (value) {
-          // @ts-expect-error toJSON exists but I can't convince ts that it does
-          item.assets[key] = value.toJSON();
-        }
-      }
-      return item;
-    }),
-    loading: loading,
+    items:
+      (arrow && stacWasm && (stacWasm.arrowToStacJson(arrow) as Item[])) ||
+      undefined,
+    loading: loading || !stacWasm,
     error: error,
   };
 }
